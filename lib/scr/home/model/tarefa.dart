@@ -1,4 +1,6 @@
-class Tarefa{
+import 'package:equatable/equatable.dart';
+
+class Tarefa extends Equatable{
   String _nome;
   String _descricao;
   bool _check;
@@ -21,7 +23,6 @@ class Tarefa{
     _nome = value;
   }
 
-
   bool get check => _check;
 
   set check(bool value) {
@@ -35,4 +36,7 @@ class Tarefa{
       'check' : this._check
     };
   }
+
+  @override
+  List<Object?> get props => [nome, descricao, check];
 }

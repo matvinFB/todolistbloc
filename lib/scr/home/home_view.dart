@@ -16,8 +16,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<Tarefa> _todoList = [];
-  TextEditingController _nomeTarefaController = TextEditingController();
-  TextEditingController _descricaoTarefaController = TextEditingController();
+  final TextEditingController _nomeTarefaController = TextEditingController();
+  final TextEditingController _descricaoTarefaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -313,7 +313,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Text(
                   "Clique único: marca/desmarca a tarefa.\n\n"+
                     "Duplo clique: abre a edição.\n\n"+
-                    "Arrastar para a direita: exlui",
+                    "Arrastar para a direita: exlui.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 17,

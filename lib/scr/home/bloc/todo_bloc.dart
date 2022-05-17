@@ -25,18 +25,14 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
     on<CarregarTarefas>(_onCarregarTarefas);
   }
 
- 
-
-  _onAddTarefa(event, emit) async{
+  _onAddTarefa(event, Emitter<TodoState> emit) async{
     List<Tarefa> todoList = state.todoList;
 
     if(event.nome == ''){
-      emit(ErrorTodoList);
-      sleep(Duration(seconds: 1));
+      emit(ErrorTodoList());
       emit(CarregadaTodoList(todoList));
-      return;
     }else{
-      Tarefa novaTarefa = Tarefa(event.nome, event.descricao);
+      Tarefa novaTarefa = Tarefa(event.nome, event.descricao, false);
       todoList.add(novaTarefa);
       emit(CarregadaTodoList(todoList));
       persistenceService.persist(state.todoList);
@@ -44,25 +40,34 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
 
   }
 
-  _onRemoverTarefa(event, emit){
-    List<Tarefa> todoList = state.todoList;
-    _pilhaItensExluidos.push(ItemExcluido(state.todoList[event.index],  event.index));
-    todoList.removeAt(event.index);
-    emit(CarregadaTodoList(todoList));
-    persistenceService.persist(state.todoList);
-  }
-
-  _onEditarTarefa(event, emit){
+  _onEditarTarefa(event, emit) async {
     var lista = state.todoList;
+
     try{
-      state.todoList[event.Index].nome =
-      (event.nome ?? state.todoList[event.Index].nome);
-      state.todoList[event.Index].descricao =
-      (event.descricao ?? state.todoList[event.Index].descricao);
-    }catch(e){
+      state.todoList[event.index].nome =
+      (event.nome ?? state.todoList[event.index].nome);
+      state.todoList[event.index].descricao =
+      (event.descricao ?? state.todoList[event.index].descricao);
+    }catch(_){
       emit(ErrorTodoList());
     }
+
     emit(CarregadaTodoList(lista));
+    persistenceService.persist(state.todoList);
+
+
+  }
+
+  _onRemoverTarefa(event, emit){
+    List<Tarefa> todoList = state.todoList;
+    try{
+      _pilhaItensExluidos.push(ItemExcluido(state.todoList[event.index],  event.index));
+      todoList.removeAt(event.index);
+    }catch(_){
+      emit(ErrorTodoList());
+    }
+
+    emit(CarregadaTodoList(todoList));
     persistenceService.persist(state.todoList);
   }
 
@@ -78,6 +83,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
 
   _onDesfazerExclusao(event, emit){
     var listaTodo = state.todoList;
+
     if(!_pilhaItensExluidos.isEmpty){
       ItemExcluido ultimoExcluido = _pilhaItensExluidos.pop()!;
 
@@ -97,7 +103,12 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
 
   _onInverterEstadoTarefa(event, emit){
     var todoList = state.todoList;
-    todoList[event.index].check = !todoList[event.index].check;
+    try{
+      todoList[event.index].check = !todoList[event.index].check;
+    }catch(_){
+      emit(ErrorTodoList());
+    }
+
     emit(CarregadaTodoList(todoList));
     persistenceService.persist(state.todoList);
   }

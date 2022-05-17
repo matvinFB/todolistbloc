@@ -38,10 +38,14 @@ dependencies:
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.15
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^5.1.0
+  build_runner: ^2.1.11
+  bloc_test: ^9.0.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

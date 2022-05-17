@@ -10,11 +10,29 @@ class AddTarefa extends TodoEvent{
 }
 
 class EditarTarefa extends TodoEvent{
-  int Index;
-  String nome;
-  String descricao;
+  int _index;
+  String _nome;
+  String _descricao;
 
-  EditarTarefa(this.Index, this.nome, this.descricao);
+  EditarTarefa(this._index, this._nome, this._descricao);
+
+  String get descricao => _descricao;
+
+  set descricao(String value) {
+    _descricao = value;
+  }
+
+  String get nome => _nome;
+
+  set nome(String value) {
+    _nome = value;
+  }
+
+  int get index => _index;
+
+  set index(int value) {
+    _index = value;
+  }
 }
 
 class InverterEstadoTarefa extends TodoEvent{
