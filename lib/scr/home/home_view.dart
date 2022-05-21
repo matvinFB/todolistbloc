@@ -49,10 +49,10 @@ class _HomeViewState extends State<HomeView> {
           SizedBox(height: 15,),
           BlocBuilder<TodoListBloc, TodoState>(
             builder: (BuildContext context, state) {
+              print(state );
               if (state is Inicial) {
                 _todoBloc.add(CarregarTarefas());
               }
-
               _todoList = state.todoList;
               return Expanded(
                 child: ListView.separated(

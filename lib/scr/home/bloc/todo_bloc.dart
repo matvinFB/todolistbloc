@@ -31,12 +31,14 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
     if(event.nome == ''){
       emit(ErrorTodoList());
       emit(CarregadaTodoList(todoList));
+      print(event.nome);
     }else{
       Tarefa novaTarefa = Tarefa(event.nome, event.descricao, false);
       todoList.add(novaTarefa);
       emit(CarregadaTodoList(todoList));
       persistenceService.persist(state.todoList);
     }
+
 
   }
 
@@ -58,7 +60,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
 
   }
 
-  _onRemoverTarefa(event, emit){
+  _onRemoverTarefa(event, emit) async{
     List<Tarefa> todoList = state.todoList;
     try{
       _pilhaItensExluidos.push(ItemExcluido(state.todoList[event.index],  event.index));
@@ -71,7 +73,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
     persistenceService.persist(state.todoList);
   }
 
-  _onLimparTarefas(event, emit){
+  _onLimparTarefas(event, emit) async{
 
     for(int i = 0 ; i < state.todoList.length ; i++){
       _pilhaItensExluidos.push(
@@ -81,7 +83,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState>{
     persistenceService.clear();
   }
 
-  _onDesfazerExclusao(event, emit){
+  _onDesfazerExclusao(event, emit) async{
     var listaTodo = state.todoList;
 
     if(!_pilhaItensExluidos.isEmpty){

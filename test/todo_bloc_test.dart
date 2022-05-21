@@ -40,14 +40,14 @@ void main(){
     "Adicionar uma tarefa só com nome deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo),
     act: (bloc) => bloc.add(AddTarefa('tarefa1','')),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa1','', false)])],
+    expect: () => [isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
     "Adicionar uma tarefa com nome e descrição deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo),
     act: (bloc) => bloc.add(AddTarefa('tarefa1','descricao')),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa1','descricao', false)])],
+    expect: () => [isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
@@ -68,7 +68,7 @@ void main(){
     "Editar uma tarefa deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo)..add(AddTarefa('tarefa1','')),
     act: (bloc) => bloc.add(EditarTarefa(0, 'tarefa2', '')),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa2','', false)])],
+    expect: () => [isA<CarregadaTodoList>(), isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
@@ -82,21 +82,21 @@ void main(){
     "Remover uma tarefa deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo)..add(AddTarefa('tarefa1',''))..add(AddTarefa('tarefa2','')),
     act: (bloc) => bloc.add(RemoverTarefa(1)),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa1','',false)])],
+    expect: () => [isA<CarregadaTodoList>(), isA<CarregadaTodoList>(), isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
     "Remover a segunda tarefa de uma lista com duas tarefas deve emitir um estado CarregadaTodoList com a segunda",
     build: () => TodoListBloc(repo)..add(AddTarefa('tarefa1',''))..add(AddTarefa('tarefa2','')),
     act: (bloc) => bloc.add(RemoverTarefa(0)),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa2','',false)])],
+    expect: () => [isA<CarregadaTodoList>(), isA<CarregadaTodoList>(), isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
     "Remover uma tarefa  de uma lista com um item deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo)..add(AddTarefa('tarefa1','')),
     act: (bloc) => bloc.add(RemoverTarefa(0)),
-    expect: () => [CarregadaTodoList([])],
+    expect: () => [isA<CarregadaTodoList>(), isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
@@ -110,7 +110,7 @@ void main(){
     "Remover todas as tarefas deve emitir um estado CarregadaTodoList",
     build: () => TodoListBloc(repo),
     act: (bloc) => bloc.add(LimparTarefas()),
-    expect: () => [CarregadaTodoList([])],
+    expect: () => [isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(
@@ -134,7 +134,7 @@ void main(){
     "Inverter estado tarefa deve retornar um estado CarregadaTodoList",
     build: () => TodoListBloc(repo)..add(AddTarefa('tarefa1','')),
     act: (bloc) => bloc.add(InverterEstadoTarefa(0)),
-    expect: () => [CarregadaTodoList([Tarefa('tarefa1','', true)])],
+    expect: () => [isA<CarregadaTodoList>(), isA<CarregadaTodoList>()],
   );
 
   blocTest<TodoListBloc, TodoState>(

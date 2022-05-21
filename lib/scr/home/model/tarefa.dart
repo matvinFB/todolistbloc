@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 class Tarefa extends Equatable{
   String _nome;
   String _descricao;
   bool _check;
+
 
   Tarefa(this._nome, [this._descricao = '', this._check = false]);
 
